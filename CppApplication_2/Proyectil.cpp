@@ -58,6 +58,5 @@ sf::Vector2f Proyectil::getPos(){
 Proyectil::~Proyectil() {
     
     
-    
 }
 

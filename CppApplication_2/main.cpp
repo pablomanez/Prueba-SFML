@@ -20,6 +20,7 @@
 #include <SFML/Graphics/RenderWindow.hpp>
 
 #include "Jugador.h"
+#include "Enemigo.h"
 
 using namespace std;
 
@@ -62,13 +63,24 @@ int main(){
     }
     */
     
-    //ESTA ES LA CLASE QUE USARA EL JUGADOR
+    //////////////////////////////////////////
+    //CREACION DE LOS ENEMIGOS Y DEL JUGADOR//
+    //////////////////////////////////////////
+    
+    //JUGADOR
     Jugador player;
     
+    //ENEMIGOS
+    int tam = 7;
+    Enemigo arr_enem[tam];
+    for(int i = 0; i<tam; i++){
+        arr_enem[i].setCaract(1,sf::Vector2f(42+(16*4*i),80));
+    }
+        
     //VARIABLES LOCALES
     bool right = false;
     bool left = false;
-    bool shoot = false;
+    bool dir_enem = true;
     
     //LOOP DEL JUEGO
     while (window.isOpen()){
@@ -77,7 +89,7 @@ int main(){
          * 2- UPDATE FRAME, UPDATE THE OBJECTS IN THE SCENE
          * 3- RENDER FRAME, RENDER THE OBJECTS FROM THE SCENE ONTO THE WINDOW
          */
-        
+                
         /////////////////////
         //MANEJAR LOS INPUT//
         /////////////////////
@@ -141,7 +153,7 @@ int main(){
         //ACTUALIZAR OBJETOS//
         //////////////////////
         
-        //MOVIMIENTO
+        //MOVIMIENTO JUGADOR
         if(right){
             player.MoverDerecha();
         }
@@ -149,6 +161,28 @@ int main(){
             player.MoverIzquierda();
         }
         
+        //MOVIMIENTO ENEMIGOS
+        for(int i = 0; i<tam; i++){
+            arr_enem[i].Mover(dir_enem);
+        }
+        if(dir_enem && arr_enem[tam].getPos().x+42 > 640){
+            //SE SALEN DEL MAPA POR LA DERECHA
+            dir_enem = false;
+            
+            for(int i = 0; i<tam; i++){
+                arr_enem[i].Mover(dir_enem);
+                arr_enem[i].MoverVertical();
+            }
+        }
+        else if(!dir_enem && arr_enem[0].getPos().x-42 < 0){
+            // SE SALEN DEL MAPA POR LA IZQUIERDA
+            dir_enem = true;
+            
+            for(int i = 0; i<tam; i++){
+                arr_enem[i].Mover(dir_enem);
+                arr_enem[i].MoverVertical();
+            }
+        }
         
         
         //TEXTO DE LA POSICION
@@ -171,6 +205,9 @@ int main(){
         
         window.draw(t11);
         player.Dibujar(window);
+        for(int i = 0; i<tam; i++){
+            arr_enem[i].Dibujar(window);
+        }
         
         
         window.display();

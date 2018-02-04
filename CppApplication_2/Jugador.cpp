@@ -21,7 +21,7 @@
 
 Jugador::Jugador() {
     //TEXTURA
-    this->texture.loadFromFile("p_1.png");
+    this->texture.loadFromFile("../Sprites/p_1.png");
 
     //SPRITES
     int sc = 4;
@@ -64,7 +64,6 @@ void Jugador::Dibujar(sf::RenderWindow& window){
             if(proy.getPos().y<0){
                 //SE DESTRUYE
                 //proy.~Proyectil();
-                //window.~RenderTarget();
                 std::cout << "siguen vivos" << std::endl;
             }
             else{
