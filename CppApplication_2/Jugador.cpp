@@ -12,6 +12,8 @@
  */
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include "Proyectil.h"
 
 #include "Jugador.h"
 
@@ -45,11 +47,53 @@ void Jugador::MoverIzquierda(){
 }
 
 void Jugador::Dibujar(sf::RenderWindow& window){
+    //PRIMERO DIBUJO MI SPRITE
     window.draw(this->sprite);
+    
+    //DESPUES LOS DISPAROS
+    if(!disparos.empty()){
+                
+        std::stack<Proyectil> aux;
+        while(!disparos.empty()){
+            Proyectil proy = disparos.top();
+            disparos.pop();
+
+            //std::cout << proy.getPos().x << std::endl;
+            if(proy.getPos().y<0){
+                //SE DESTRUYE
+                //proy.~Proyectil();
+                //window.~RenderTarget();
+                std::cout << "siguen vivos" << std::endl;
+            }
+            else{
+                //SE MUEVE
+                proy.Mover();
+                proy.Dibujar(window);
+            }
+
+            aux.push(proy);
+        }
+        
+        while(!aux.empty()){
+            disparos.push(aux.top());
+            aux.pop();
+            
+        }
+        
+    }
 }
 
-void Disparar(){
-    Proyectil proy;
+void Jugador::Disparar(){
+    sf::Vector2f posJ = this->sprite.getPosition();
+    
+    Proyectil proy(true,posJ);
+    
+    this->disparos.push(proy);
+    
+    
+    
+    
+    
 }
 
 //GETTER
@@ -60,5 +104,6 @@ sf::Vector2f Jugador::getPos(){
 
 
 Jugador::~Jugador() {
+    
 }
 

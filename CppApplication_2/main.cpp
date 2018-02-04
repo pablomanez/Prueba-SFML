@@ -93,6 +93,9 @@ int main(){
                     if(event.key.code == sf::Keyboard::Key::Left){
                         player.MoverIzquierda();
                     }
+                    if(event.key.code == sf::Keyboard::Key::Space){
+                        player.Disparar();
+                    }
                     break;
                     
                 case sf::Event::EventType::KeyReleased:
@@ -125,9 +128,9 @@ int main(){
         //RENDER DE LOS OBJETOS
         window.clear(sf::Color::Black);
         
+        window.draw(t11);
         player.Dibujar(window);
         
-        window.draw(t11);
         
         window.display();
         
@@ -137,28 +140,3 @@ int main(){
     
 }
 
-
-/*
-int main()
-{
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        window.clear();
-        window.draw(shape);
-        window.display();
-    }
-
-    return 0;
-}
-*/

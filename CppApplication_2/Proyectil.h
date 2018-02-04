@@ -14,12 +14,28 @@
 #ifndef PROYECTIL_H
 #define PROYECTIL_H
 
+#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/RectangleShape.hpp>
+#include <SFML/Graphics/RenderWindow.hpp>
+
+
 class Proyectil {
 public:
-    Proyectil();
-    Proyectil(const Proyectil& orig);
+    Proyectil(bool b,sf::Vector2f o);
+    void Dibujar(sf::RenderWindow& window);
+    void Mover();
+    
+    //GETTER
+    sf::Vector2f getPos();
+    
     virtual ~Proyectil();
+    
 private:
+    //TRUE SI ES ALIADO, FALSE SI ES ENEMIGO
+    bool aliado;
+    sf::Vector2f origen;
+    //SPRITE
+    sf::RectangleShape shape;
 
 };
 

@@ -15,6 +15,11 @@
 #define JUGADOR_H
 
 #include <SFML/Graphics.hpp>
+#include <valarray>
+#include <queue>
+#include <array>
+#include <stack>
+#include "Proyectil.h"
 
 class Jugador {
 public:
@@ -24,6 +29,8 @@ public:
     void MoverDerecha();
     void MoverIzquierda();
     void Dibujar(sf::RenderWindow& window);
+    void Disparar();
+    
     
     //GETTER
     sf::Vector2f getPos();
@@ -35,6 +42,7 @@ private:
     
     sf::Texture texture;
     sf::Sprite sprite;
+    std::stack<Proyectil> disparos;
     
     
     
