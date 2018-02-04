@@ -17,6 +17,8 @@
 
 #include "Jugador.h"
 
+#define disp 5
+
 Jugador::Jugador() {
     //TEXTURA
     this->texture.loadFromFile("p_1.png");
@@ -31,18 +33,18 @@ Jugador::Jugador() {
 }
 
 void Jugador::MoverDerecha(){
-    this->sprite.move(10,0);
+    this->sprite.move(disp,0);
     
     if(this->sprite.getPosition().x > 640-(this->sprite.getGlobalBounds().width/2)){
-        this->sprite.move(-10,0);
+        this->sprite.move(-disp,0);
     }
 }
 
 void Jugador::MoverIzquierda(){
-    this->sprite.move(-10,0);
+    this->sprite.move(-disp,0);
     
     if(this->sprite.getPosition().x < 0+((this->sprite.getGlobalBounds().width/2))){
-        this->sprite.move(10,0);
+        this->sprite.move(disp,0);
     }
 }
 
@@ -89,10 +91,6 @@ void Jugador::Disparar(){
     Proyectil proy(true,posJ);
     
     this->disparos.push(proy);
-    
-    
-    
-    
     
 }
 

@@ -65,6 +65,10 @@ int main(){
     //ESTA ES LA CLASE QUE USARA EL JUGADOR
     Jugador player;
     
+    //VARIABLES LOCALES
+    bool right = false;
+    bool left = false;
+    bool shoot = false;
     
     //LOOP DEL JUEGO
     while (window.isOpen()){
@@ -74,7 +78,9 @@ int main(){
          * 3- RENDER FRAME, RENDER THE OBJECTS FROM THE SCENE ONTO THE WINDOW
          */
         
-        //MANEJAR LOS INPUT
+        /////////////////////
+        //MANEJAR LOS INPUT//
+        /////////////////////
         sf::Event event;
         //while (window.waitEvent(event)){
         while(window.pollEvent(event)){
@@ -87,11 +93,17 @@ int main(){
                 
                 case sf::Event::EventType::KeyPressed:
                     //PUEDE USARSE TAMBIEN KeyBoard::isKeyPressed(sf::KeyBoard::Key::Right) TODO JUNTO
+                    if(event.key.code == sf::Keyboard::Key::Space && event.key.code == sf::Keyboard::Key::Right){
+                        right = true;
+                    }
+                    if(event.key.code == sf::Keyboard::Key::Space && event.key.code == sf::Keyboard::Key::Left){
+                        left = true;
+                    }
                     if(event.key.code == sf::Keyboard::Key::Right){
-                        player.MoverDerecha();
+                        right = true;
                     }
                     if(event.key.code == sf::Keyboard::Key::Left){
-                        player.MoverIzquierda();
+                        left = true;
                     }
                     if(event.key.code == sf::Keyboard::Key::Space){
                         player.Disparar();
@@ -99,6 +111,18 @@ int main(){
                     break;
                     
                 case sf::Event::EventType::KeyReleased:
+                    if(event.key.code == sf::Keyboard::Key::Space && event.key.code == sf::Keyboard::Key::Right){
+                        right = false;
+                    }
+                    if(event.key.code == sf::Keyboard::Key::Space && event.key.code == sf::Keyboard::Key::Left){
+                        left = false;
+                    }
+                    if(event.key.code == sf::Keyboard::Key::Right){
+                        right = false;
+                    }
+                    if(event.key.code == sf::Keyboard::Key::Left){
+                        left = false;
+                    }
                     if(event.key.code == sf::Keyboard::Key::Escape){
                         window.close();
                     }
@@ -113,7 +137,21 @@ int main(){
         
         //----------ACTUALIZACION DE LA ESCENA----------//
                 
-        //ACTUALIZAR OBJETOS
+        //////////////////////
+        //ACTUALIZAR OBJETOS//
+        //////////////////////
+        
+        //MOVIMIENTO
+        if(right){
+            player.MoverDerecha();
+        }
+        else if(left){
+            player.MoverIzquierda();
+        }
+        
+        
+        
+        //TEXTO DE LA POSICION
         sf::Text text,t11;
         sf::Font font1;
         font1.loadFromFile("monoMMM_5.ttf");
@@ -125,7 +163,10 @@ int main(){
         t11.setFillColor(sf::Color::White);
         
         
-        //RENDER DE LOS OBJETOS
+        
+        /////////////////////////
+        //RENDER DE LOS OBJETOS//
+        /////////////////////////
         window.clear(sf::Color::Black);
         
         window.draw(t11);

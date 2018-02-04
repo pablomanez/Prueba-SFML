@@ -15,6 +15,8 @@
 
 #include "Proyectil.h"
 
+#define disp 10
+
 Proyectil::Proyectil(bool b,sf::Vector2f o) {
     
     this->aliado = b;
@@ -32,7 +34,7 @@ void Proyectil::Mover() {
 
     if(this->aliado){
         //HACIA ARRIBA
-        this->shape.move(0,-3);
+        this->shape.move(0,-disp);
         
     }
     else{
