@@ -14,9 +14,12 @@
 #include <cstdlib>
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 //#include <SFML/Window.hpp>
 #include <valarray>
 #include <SFML/Graphics/RenderWindow.hpp>
+
+#include "Jugador.h"
 
 using namespace std;
 
@@ -29,12 +32,13 @@ int main(){
     //sf::VideoMode videomode;
     //getDesktopMode() consigue la resolucion maxima de la pantalla, es decir, fullscreen
     
-    sf::RenderWindow window(sf::VideoMode(600,500),"Mi titulo",sf::Style::Default);
+    sf::RenderWindow window(sf::VideoMode(640,480),"Mi titulo",sf::Style::Default);
     window.setMouseCursorVisible(true);
     window.setFramerateLimit(60);
     //sf::sleep(sf::seconds(3));
     
     //A DIBUJAR
+    /*
     sf::CircleShape circleShape(20);
     circleShape.setFillColor(sf::Color::Red);
     circleShape.setOutlineColor(sf::Color::White);
@@ -46,10 +50,21 @@ int main(){
     enemy.setFillColor(sf::Color::Green);
     enemy.setOutlineThickness(1);
     enemy.setOutlineColor(sf::Color::White);
+    enemy.setPosition(400,100);
+    */
     
-    //CONTROL DEL MOVIMIENTO DEL JUEGO
-    bool move = false;
-    int dist = 1;
+    //CARGA DE IMAGENES Y TEXTURAS
+    /*
+    sf::Image image;
+    //PARA PREVENCION DE BUGS
+    if(!image.loadFromFile("../Sprites/p_1.png")){
+        return -1;
+    }
+    */
+    
+    //ESTA ES LA CLASE QUE USARA EL JUGADOR
+    Jugador player;
+    
     
     //LOOP DEL JUEGO
     while (window.isOpen()){
@@ -73,16 +88,10 @@ int main(){
                 case sf::Event::EventType::KeyPressed:
                     //PUEDE USARSE TAMBIEN KeyBoard::isKeyPressed(sf::KeyBoard::Key::Right) TODO JUNTO
                     if(event.key.code == sf::Keyboard::Key::Right){
-                        circleShape.move(dist,0);
+                        player.MoverDerecha();
                     }
                     if(event.key.code == sf::Keyboard::Key::Left){
-                        circleShape.move(-dist,0);
-                    }
-                    if(event.key.code == sf::Keyboard::Key::Up){
-                        circleShape.move(0,-dist);
-                    }
-                    if(event.key.code == sf::Keyboard::Key::Down){
-                        circleShape.move(0,dist);
+                        player.MoverIzquierda();
                     }
                     break;
                     
@@ -102,15 +111,23 @@ int main(){
         //----------ACTUALIZACION DE LA ESCENA----------//
                 
         //ACTUALIZAR OBJETOS
-        if(circleShape.getGlobalBounds().intersects(enemy.getGlobalBounds())){
-            window.close();
-        }
+        sf::Text text,t11;
+        sf::Font font1;
+        font1.loadFromFile("monoMMM_5.ttf");
+        
+        sf::String x1 = to_string(player.getPos().x);
+        
+        t11.setFont(font1);
+        t11.setString(x1);
+        t11.setFillColor(sf::Color::White);
+        
         
         //RENDER DE LOS OBJETOS
         window.clear(sf::Color::Black);
         
-        window.draw(enemy);
-        window.draw(circleShape);
+        player.Dibujar(window);
+        
+        window.draw(t11);
         
         window.display();
         
