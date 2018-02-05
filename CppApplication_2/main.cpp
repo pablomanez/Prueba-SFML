@@ -18,6 +18,7 @@
 //#include <SFML/Window.hpp>
 #include <valarray>
 #include <SFML/Graphics/RenderWindow.hpp>
+#include <array>
 
 #include "Jugador.h"
 #include "Enemigo.h"
@@ -72,12 +73,15 @@ int main(){
     
     //ENEMIGOS
     int tam = 7;
-    std::array<Enemigo,7> arr_enem;
-    for(int i = 0; i<arr_enem.size(); i++){
+    //std::array<Enemigo,7> arr_enem;
+    Enemigo arr_enem[tam];
+    
+    for(int i = 0; i<(sizeof(arr_enem)/sizeof(Enemigo)); i++){
         arr_enem[i].setCaract(1,sf::Vector2f(42+(16*4*i),80));
         
     }
-        
+
+    //cout << sizeof(arr_enem)/sizeof(Enemigo);
     
         
     //VARIABLES LOCALES
@@ -165,15 +169,17 @@ int main(){
         }
         
         //MOVIMIENTO ENEMIGOS
-        for(int i = 0; i<arr_enem.size(); i++){
+        for(int i = 0; i<(sizeof(arr_enem)/sizeof(Enemigo)); i++){
             arr_enem[i].Mover(dir_enem);
+            
+            
         }
         
-        if(dir_enem && arr_enem[arr_enem.size()-1].getPos().x+42 > 640){
+        if(dir_enem && arr_enem[(sizeof(arr_enem)/sizeof(Enemigo))-1].getPos().x+42 > 640){
             //SE SALEN DEL MAPA POR LA DERECHA
             dir_enem = false;
             
-            for(int i = 0; i<arr_enem.size(); i++){
+            for(int i = 0; i<(sizeof(arr_enem)/sizeof(Enemigo)); i++){
                 arr_enem[i].Mover(dir_enem);
                 arr_enem[i].MoverVertical();
             }
@@ -182,12 +188,49 @@ int main(){
             // SE SALEN DEL MAPA POR LA IZQUIERDA
             dir_enem = true;
             
-            for(int i = 0; i<arr_enem.size(); i++){
+            for(int i = 0; i<(sizeof(arr_enem)/sizeof(Enemigo)); i++){
                 arr_enem[i].Mover(dir_enem);
                 arr_enem[i].MoverVertical();
             }
         }
         
+        //COMPRUEBO LOS DISPAROS UNA VEZ SE HA MOVIDO TODO
+        std::stack<Proyectil> disparos = player.getDisparos();
+        std::stack<Proyectil> disparos_aux;
+        std::stack<Enemigo> arr_enem_aux;
+        Enemigo enemigo_aux;
+        
+        bool mata = false;
+        
+        while(!disparos.empty()){
+            mata = false;
+            
+            Proyectil aux = disparos.top();
+            disparos.pop();
+            
+            for(int i=0; i<(sizeof(arr_enem)/sizeof(Enemigo)); i++){
+                if(aux.getGBounds().intersects(arr_enem[i].getGBounds())){
+                    mata = true;
+                    enemigo_aux = arr_enem[i];
+                    break;
+                }
+            }
+            
+            if(!mata){
+                disparos_aux.push(aux);
+            }
+            else{
+                arr_enem_aux.push(enemigo_aux);
+            }
+        }
+        
+        
+        while(!disparos_aux.empty()){
+            disparos.push(disparos_aux.top());
+            disparos_aux.pop();
+        }
+        
+        player.setDisparos(disparos);
         
         //TEXTO DE LA X DEL JUGADOR
         sf::Text text,t11;
@@ -209,10 +252,10 @@ int main(){
         
         window.draw(t11);
         player.Dibujar(window);
-        
                 
-        for(int i = 0; i<arr_enem.size(); i++){
+        for(int i = 0; i<(sizeof(arr_enem)/sizeof(Enemigo)); i++){
             arr_enem[i].Dibujar(window);
+            
         }
         
         

@@ -35,6 +35,10 @@ public:
     
     //GETTER
     sf::Vector2f getPos();
+    std::stack<Proyectil> getDisparos();
+    
+    //SETTER
+    void setDisparos(std::stack<Proyectil> proy);
     
     virtual ~Jugador();
     

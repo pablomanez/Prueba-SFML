@@ -56,26 +56,16 @@ void Jugador::Dibujar(sf::RenderWindow& window){
     
     //DESPUES LOS DISPAROS
     if(!disparos.empty()){
-                
-        bool mata = false;
         
         std::stack<Proyectil> aux;
         while(!disparos.empty()){
             Proyectil proy = disparos.top();
             disparos.pop();
 
-            /*
-            for(int i=0; i<sizeof(arr); i++){
-                if(proy.getGBounds().intersects(arr[i].getGBounds())){
-                    mata = true;
-                }
-            }
-            */
-            
             //std::cout << proy.getPos().x << std::endl;
             if(proy.getPos().y<0){
-                //SE DESTRUYE
-                //proy.~Proyectil();
+                //SE DESTRUYE EL PROYECTIL
+                
                 
                 std::cout << "Se destruye el proyectil" << std::endl;
             }
@@ -110,6 +100,17 @@ void Jugador::Disparar(){
 sf::Vector2f Jugador::getPos(){
     return this->sprite.getPosition();
 }
+
+std::stack<Proyectil> Jugador::getDisparos() {
+    return this->disparos;
+}
+
+//SETTER
+
+void Jugador::setDisparos(std::stack<Proyectil> proy) {
+    this->disparos = proy;
+}
+
 
 
 
