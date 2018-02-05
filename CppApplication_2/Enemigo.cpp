@@ -86,6 +86,11 @@ sf::Vector2f Enemigo::getPos() {
     return this->sprite.getPosition();
 }
 
+sf::FloatRect Enemigo::getGBounds() {
+    return this->sprite.getGlobalBounds();
+}
+
+
 
 
 

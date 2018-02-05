@@ -20,6 +20,7 @@
 #include <array>
 #include <stack>
 #include "Proyectil.h"
+#include "Enemigo.h"
 
 class Jugador {
 public:

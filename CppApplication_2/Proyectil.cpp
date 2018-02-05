@@ -55,6 +55,11 @@ sf::Vector2f Proyectil::getPos(){
     
 }
 
+sf::FloatRect Proyectil::getGBounds() {
+    return this->shape.getGlobalBounds();
+}
+
+
 Proyectil::~Proyectil() {
     
     

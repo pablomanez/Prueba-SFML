@@ -16,6 +16,7 @@
 #include "Proyectil.h"
 
 #include "Jugador.h"
+#include "Enemigo.h"
 
 #define disp 5
 
@@ -52,27 +53,39 @@ void Jugador::Dibujar(sf::RenderWindow& window){
     //PRIMERO DIBUJO MI SPRITE
     window.draw(this->sprite);
     
+    
     //DESPUES LOS DISPAROS
     if(!disparos.empty()){
                 
+        bool mata = false;
+        
         std::stack<Proyectil> aux;
         while(!disparos.empty()){
             Proyectil proy = disparos.top();
             disparos.pop();
 
+            /*
+            for(int i=0; i<sizeof(arr); i++){
+                if(proy.getGBounds().intersects(arr[i].getGBounds())){
+                    mata = true;
+                }
+            }
+            */
+            
             //std::cout << proy.getPos().x << std::endl;
             if(proy.getPos().y<0){
                 //SE DESTRUYE
                 //proy.~Proyectil();
-                std::cout << "siguen vivos" << std::endl;
+                
+                std::cout << "Se destruye el proyectil" << std::endl;
             }
             else{
                 //SE MUEVE
                 proy.Mover();
                 proy.Dibujar(window);
+                aux.push(proy);
             }
 
-            aux.push(proy);
         }
         
         while(!aux.empty()){

@@ -72,10 +72,13 @@ int main(){
     
     //ENEMIGOS
     int tam = 7;
-    Enemigo arr_enem[tam];
-    for(int i = 0; i<tam; i++){
+    std::array<Enemigo,7> arr_enem;
+    for(int i = 0; i<arr_enem.size(); i++){
         arr_enem[i].setCaract(1,sf::Vector2f(42+(16*4*i),80));
+        
     }
+        
+    
         
     //VARIABLES LOCALES
     bool right = false;
@@ -162,14 +165,15 @@ int main(){
         }
         
         //MOVIMIENTO ENEMIGOS
-        for(int i = 0; i<tam; i++){
+        for(int i = 0; i<arr_enem.size(); i++){
             arr_enem[i].Mover(dir_enem);
         }
-        if(dir_enem && arr_enem[tam].getPos().x+42 > 640){
+        
+        if(dir_enem && arr_enem[arr_enem.size()-1].getPos().x+42 > 640){
             //SE SALEN DEL MAPA POR LA DERECHA
             dir_enem = false;
             
-            for(int i = 0; i<tam; i++){
+            for(int i = 0; i<arr_enem.size(); i++){
                 arr_enem[i].Mover(dir_enem);
                 arr_enem[i].MoverVertical();
             }
@@ -178,14 +182,14 @@ int main(){
             // SE SALEN DEL MAPA POR LA IZQUIERDA
             dir_enem = true;
             
-            for(int i = 0; i<tam; i++){
+            for(int i = 0; i<arr_enem.size(); i++){
                 arr_enem[i].Mover(dir_enem);
                 arr_enem[i].MoverVertical();
             }
         }
         
         
-        //TEXTO DE LA POSICION
+        //TEXTO DE LA X DEL JUGADOR
         sf::Text text,t11;
         sf::Font font1;
         font1.loadFromFile("monoMMM_5.ttf");
@@ -205,7 +209,9 @@ int main(){
         
         window.draw(t11);
         player.Dibujar(window);
-        for(int i = 0; i<tam; i++){
+        
+                
+        for(int i = 0; i<arr_enem.size(); i++){
             arr_enem[i].Dibujar(window);
         }
         

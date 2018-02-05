@@ -27,6 +27,7 @@ public:
     
     //GETTER
     sf::Vector2f getPos();
+    sf::FloatRect getGBounds();
     
     virtual ~Proyectil();
     

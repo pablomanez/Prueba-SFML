@@ -28,6 +28,7 @@ public:
     
     //GETTER
     sf::Vector2f getPos();
+    sf::FloatRect getGBounds();
     
     //SETTER
     void setCaract(int num, sf::Vector2f pos);
@@ -38,6 +39,7 @@ private:
     int puntuacion;
     sf::Sprite sprite;
     sf::Texture texture;
+
 };
 
 #endif /* ENEMIGO_H */
