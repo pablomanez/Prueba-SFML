@@ -175,7 +175,25 @@ int main(){
             
         }
         
-        if(dir_enem && arr_enem[(sizeof(arr_enem)/sizeof(Enemigo))-1].getPos().x+42 > 640){
+        int first = 0;
+        int last = (sizeof(arr_enem)/sizeof(Enemigo))-1;
+        
+        for(int i=0; i<(sizeof(arr_enem)/sizeof(Enemigo)); i++){
+            //BUSCO EL PRIMER ENEMIGO DEL ARRAY, QUE NO SE HAYA ELIMINADO
+            if(arr_enem[i].getPuntuacion()!=0){
+                first = i;
+                break;
+            }
+        }
+        for(int i=0; i<(sizeof(arr_enem)/sizeof(Enemigo)); i++){
+            //BUSCO EL ULTIMO ENEMIGO DEL ARRAY, QUE NO SE HAYA ELIMINADO
+            if(arr_enem[i].getPuntuacion()!=0){
+                last = i;
+            }
+        }
+        
+        
+        if(dir_enem && arr_enem[last].getPos().x+42 > 640){
             //SE SALEN DEL MAPA POR LA DERECHA
             dir_enem = false;
             
@@ -184,7 +202,7 @@ int main(){
                 arr_enem[i].MoverVertical();
             }
         }
-        else if(!dir_enem && arr_enem[0].getPos().x-42 < 0){
+        else if(!dir_enem && arr_enem[first].getPos().x-42 < 0){
             // SE SALEN DEL MAPA POR LA IZQUIERDA
             dir_enem = true;
             
@@ -211,7 +229,9 @@ int main(){
             for(int i=0; i<(sizeof(arr_enem)/sizeof(Enemigo)); i++){
                 if(aux.getGBounds().intersects(arr_enem[i].getGBounds())){
                     mata = true;
-                    enemigo_aux = arr_enem[i];
+                    //enemigo_aux = arr_enem[i];
+                    arr_enem[i] = enemigo_aux;
+                    
                     break;
                 }
             }
@@ -221,17 +241,16 @@ int main(){
             }
             else{
                 arr_enem_aux.push(enemigo_aux);
+                cout << "Se destruye el proyectil"<< endl;
             }
         }
-        
-        
         while(!disparos_aux.empty()){
             disparos.push(disparos_aux.top());
             disparos_aux.pop();
         }
         
         player.setDisparos(disparos);
-        
+                
         //TEXTO DE LA X DEL JUGADOR
         sf::Text text,t11;
         sf::Font font1;

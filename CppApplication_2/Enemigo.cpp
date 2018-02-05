@@ -15,7 +15,7 @@
 
 #include "Enemigo.h"
 Enemigo::Enemigo(){
-    
+    this->puntuacion = 0;
 }
 Enemigo::Enemigo(int i,sf::Vector2f pos) {
     
@@ -90,10 +90,14 @@ sf::FloatRect Enemigo::getGBounds() {
     return this->sprite.getGlobalBounds();
 }
 
+int Enemigo::getPuntuacion() {
+    return this->puntuacion;
+}
 
 
 
 
 Enemigo::~Enemigo() {
+    
 }
 
